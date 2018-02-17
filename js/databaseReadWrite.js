@@ -1,5 +1,5 @@
-var ip;
-var dbName;
+var ip = "localhost";
+var dbName = "test1";
 
 function configureDB(){
     ip = dbConfig.ipAddress;
@@ -13,6 +13,8 @@ function configureDB(){
        }
     //createSession();
 }
+
+//configureDB();
     
 
 function retrieveAllDocs(){    
@@ -295,7 +297,7 @@ function createHTTPGETConnection(medicalRecordId){
 
 function createHTTPGETConnectionMaxId(){
   var http = new XMLHttpRequest();
-  var url = "http://"+ip+":5984/"+dbName+"/_design/lastId/_view/maxId"; //server will change -> config file?
+  var url = "http://"+ip+":5984/"+dbName+"/_design/lastId/_view/lastId"; //server will change -> config file?
   var record;
   http.open("GET", url, false);
   http.withCredentials = true;
