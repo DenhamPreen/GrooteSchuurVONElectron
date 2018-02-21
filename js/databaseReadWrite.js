@@ -331,39 +331,42 @@ function createHTTPDELETEConnection(medicalRecordId){
 
 function mapToNaturalLanguage(record){
     var addedRecord = record;
-    if (record.transferCodePIW == 99999999){
+    if (record.transferCode == "99999999"){
         addedRecord.transferCenterName = "Unknown";
     }
-    var center = "Unknown";
-    switch(record.transferCodePIW) {
-    case 13240:
+    var center = "Unknown Transfer Code Center";
+	
+			console.log(record.transferCode);
+			console.log(typeof(record.transferCode));
+    switch(record.transferCode) {			
+    case "13240":
         center = "Mowbray Maternity Hospital"
         break;
-    case 14994:
+    case "14994":
         center = "New Somerset Hospital"
         break;
-    case 16011:
+    case "16011":
         center = "Tygerberg Hospital"
         break;
-    case 8005432:
+    case "8005432":
         center = "Khayelitsha District Hospital"
         break;
-    case 8005433:
+    case "8005433":
         center = "Mitchell's Plein District Hospital"
         break;
-    case 8005435:
+    case "8005435":
         center = "Red Cross Children's Hospital"
         break;
-    case 97777777:
+    case "97777777":
         center = "Birth at Home or in Transit"
         break;
-	case 9000217:
+	case "9000217":
 		center="Other"
 		break;
-    case 77777777:
+    case "77777777":
         center = "N/A"
         break;
-    case 99999999:
+    case "99999999":
         center = "Unknown"
         break;
     }
