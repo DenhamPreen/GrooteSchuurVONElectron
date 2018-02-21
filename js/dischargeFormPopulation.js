@@ -151,18 +151,22 @@ document.getElementById("fetalMedicineUnitFlaggedPrint").innerHTML = (babyData.f
     
 if (babyData.fetalMedicineUnitFlagged == 1){
     $('fetalMedicineUnitFlaggedPrintHiddenId').removeClass('fetalMedicineUnitFlaggedPrintHidden');
+	document.getElementById("fetalMedicineUnitFlaggedPrintHiddenId").value = babyData.antenatalScan;
 } 
 
 document.getElementById("abnormalHeadUltrasoundPrint").innerHTML = (babyData.abnormalHeadUltrasound == 1) ? " • Abnormal head ultrasound" : "";
    
 if (babyData.abnormalHeadUltrasound == 1){
     $('abnormalHeadUltrasoundPrintHiddenId').removeClass('abnormalHeadUltrasoundPrintHidden');
+	document.getElementById("abnormalHeadUltrasoundPrintHiddenId").value = babyData.abnormalHeadUltrasoundResult;
+	
 } 
 
 document.getElementById("chromosomesDonePrint").innerHTML = (babyData.chromosomesDone == 1) ? " • Chromosomes Done" : "";
 
 if (babyData.chromosomesDone == 1){
     $('chromosomesDonePrintHiddenId').removeClass('chromosomesDonePrintHidden');
+	document.getElementById("chromosomesDonePrintHiddenId").value = babyData.chromosomesDoneResults;
 }     
     
 document.getElementById("immunizations652Print").innerHTML = (babyData.immunizations652 == 1) ? " • Immunizations Done on " + babyData.immunizations652Date : "";
