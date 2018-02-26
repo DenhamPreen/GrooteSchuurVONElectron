@@ -34,36 +34,102 @@ function retrieveAllDocs(){
   return babyData;
 }
 
-function createSession(){ 
-        
-  var http = new XMLHttpRequest();
+
+var validateUser = function(form){
+    return new Promise((resolve, reject)=>{
+        var http = new XMLHttpRequest();
   var url = "http://"+ip+":5984/_session"; //admin:vonadmin123@
+  var isUserValid = "";
   http.withCredentials = true;
+
+  
   http.open("POST", url, true);
+  http.setRequestHeader("Content-type", "application/json"); 
+  http.send(JSON.stringify(form)); 
   http.onreadystatechange = function() {
-    if(http.readyState == 4 && http.status == 200) {
-        alert("Logged in");
-        document.getElementById('session').value = true;        
-    }
-  }
-  
-/*  var user = prompt('Username');
-  var password = prompt('Password');*/
-  
-  var u = {
-      name: "",
-      password: ""
-  };
-/*
-  u.name = user;
-  u.password = password;
-*/
-  
-  http.setRequestHeader("Content-type", "application/json");  
-  http.send(JSON.stringify(u));
-  
+   
+      
+        if(http.readyState == 4 && http.status == 200) {
+            console.log(http.responseText)
+            isUserValid = http.responseText
+            resolve(isUserValid);
+        }
+      
+        if(http.readyState == 4 && http.status == 404 ){
+            console.log(http.responseText)
+            isUserValid = http.responseText
+            reject(isUserValid);
+        } 
+    
+        if(http.readyState == 4 && http.status == 401){
+            console.log(http.responseText)
+            isUserValid = http.responseText
+            reject(isUserValid);
+        }
+     
+  };    
+ });
 }
 
+
+function login(){
+
+    //Getting the variable's value from a link 
+    var loginBox = $(".login-popup");
+
+    //Fade in the Popup
+    $(loginBox).fadeIn(300);
+    
+    //Set the center alignment padding + border see css style
+    var popMargTop = ($(loginBox).height() + 24) / 2; 
+    var popMargLeft = ($(loginBox).width() + 24) / 2; 
+    
+    $(loginBox).css({ 
+        'margin-top' : -popMargTop,
+        'margin-left' : -popMargLeft
+    });
+    
+    // Add the mask to body
+    $('body').append('<div id="mask"></div>');
+    $('#mask').fadeIn(300);
+    
+    return false;
+    
+        // When clicking on the button close or the mask layer the popup closed
+
+}
+
+function loggedIn(){
+        document.getElementById("loginButton").setAttribute("style", "display:none");
+        document.getElementById("menuButton").setAttribute("style", "display:inline");
+        document.getElementById("createNewEntryButton").setAttribute("style", "display:inline"); 
+}
+
+function checkLogin(){
+    
+    var form = $('.signin').serializeJSON();
+    console.log(form);
+    
+    var isUserValid = validateUser(form).then((isUserValid)=>{console.log(isUserValid);});
+    
+    if(isUserValid.ok = true && isUserValid != null){
+        
+            $('#mask , .login-popup').fadeOut(300 , function() {
+        $('#mask').remove();  
+    });
+        
+        document.getElementById("loginButton").setAttribute("style", "display:none");
+        document.getElementById("menuButton").setAttribute("style", "display:inline");
+        document.getElementById("createNewEntryButton").setAttribute("style", "display:inline"); 
+        
+        toastr.success("Login succeeded")
+    }
+    
+    else{
+        toastr.error("Invalid login attempt", isUserValid.error)
+    }
+    
+}
 
 function changePassword(userData){
   var http = new XMLHttpRequest();
@@ -110,6 +176,7 @@ function getCurrentId(){
 }
 
 function repopulateForm(babyData){
+        var ids  = [];
         for (var key in babyData) {
             if (babyData.hasOwnProperty(key)) {
                 
@@ -124,7 +191,11 @@ function repopulateForm(babyData){
                 }
                 
                 if(document.getElementById(key) !== null){                
-                    document.getElementById(key).value = babyData[key]; 
+                    document.getElementById(key).value = babyData[key];
+                    var element = "#"+key
+                    //console.log(element)
+                    ids.push(element);
+                    $(element).triggerHandler("change")
                     
                 }
                 
@@ -140,14 +211,22 @@ function repopulateForm(babyData){
                             for(i=0; i<domElements.length; i++){
                                 if(domElements[i].value == index){
                                   //eventFire(domElements[i], 'click')
+                                  var element = "#"+domElements[i].getAttribute("id");
                                   domElements[i].checked = true;
-                                  
+                                  $(element).triggerHandler("change")
+                                  ids.push(element);
+                                  //console.log(element);
                                 }
                             }
                         }   
                 }                            
             }
         }
+    
+        //$( "#mothersLastName" ).triggerHandler("onSelect");
+        console.log(ids)
+        $("#jaundiceNeedingPhototherapyYes").triggerHandler("change")
+        
 }
 
 
@@ -158,7 +237,7 @@ function checkForPopulation(){
        var id = _url.searchParams.get("id");
         $('body').removeClass('stop-scrolling');
        fetchRowData(id);
-    
+       loggedIn();
         //alert("There are params"+id)
     } 
     else {}

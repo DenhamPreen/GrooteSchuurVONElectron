@@ -60,7 +60,8 @@ function SelectsPatientForm(){
             selectsAllSelected = false;        
         }
         else{
-            $('#'+this.id).removeClass('glowingHiddenFieldsPermanent');
+            var element = "#"+this.id;
+            $(element).removeClass('glowingHiddenFieldsPermanent');
         }
         ;
     });

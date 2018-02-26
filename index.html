@@ -22,6 +22,26 @@
    </head>
     <!--class="stop-scrolling"-->
    <body id="page-top" onload="configureDB()" class="stop-scrolling">
+     
+    <div id="login-box" class="login-popup">
+        <a href="#" class="close"><button src="close_pop.png" class="btn_close" title="Close Window" alt="Close">Close</button></a>
+          <form method="post" class="signin">
+                <fieldset class="textbox">
+                <label class="username">
+                <span>Username or email</span>
+                <input id="username" name="username" value="" type="text" autocomplete="on" placeholder="Username">
+                </label>
+                <label class="password">
+                <span>Password</span>
+                <input id="password" name="password" value="" type="password" placeholder="Password">
+                </label>
+                <button class="submit button" type="button" onclick="checkLogin()">Sign in</button>       
+                </fieldset>
+          </form>
+        </div>
+       
+       
+       
       <!-- Clear Form Dialog -->
       <div id="dialog-confirm" title="Clear the Form?">
          <p><span class="fa fa-exclamation-triangle" style="float:left; margin:12px 12px 20px 0;"></span>The entire form will be permanently cleared. Are you sure?</p>
@@ -29,7 +49,7 @@
       <!-- Clear Form Dialog -->
       <!-- Navigation -->
       <nav id="mainNav" class="navbar fixed-top navbar-toggleable-md navbar-light">
-         <button class="menuButton navbar-toggler navbar-toggler-right" type="button" onclick="openNav()" style="cursor: pointer; display: inline">
+         <button id="menuButton" class="menuButton navbar-toggler navbar-toggler-right" type="button" onclick="openNav()" style="cursor: pointer; display: none">
          Menu <i class="fa fa-bars"></i>
          </button>
          <div class="container">
@@ -42,9 +62,10 @@
       </nav>
       <!-- START Menu -->
       <div id="mySidenav" class="sidenav">
-         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> 
          <a href="javascript:void(0)" onclick="return createRecord();" class="createNewEntryMenuButton">Create New Entry</a> 
          <a href="viewTable.html" class="viewAllEntriesMenuButton">View All Entries</a>
+         <a href="index.html" class="createNewEntryMenuButton">Log Out</a> 
 <!--         <a href="#" class="helpMenuButton">Help</a>-->
 <!--         <a href="#" class="loginMenuButton">Change Password</a>-->
       </div>
@@ -58,7 +79,10 @@
                      <h1 class="brand-heading" style="word-spacing: 22px;">Groote Schuur Hospital </h1>
                      <label class="subHeadingTitle">Neonatal Unit</label>
                      <h5 style="font-family: 'Julius sans one'">Data Capture & Discharge Management System</h5>
-                     <a href="#" class="btn btn-default page-scroll btn-lg display: inline-block" id="createNewEntryButton" style="margin-top: 70px;" onclick="createRecord()">
+                     <a href="#" class="btn btn-default page-scroll btn-lg display: inline-block" id="loginButton" style="margin-top: 70px; " onclick="login()">
+                     Login <i class="fa fa-angle-double-down animated"></i>
+                     </a>
+                     <a styl="display:none" href="#" class="btn btn-default page-scroll btn-lg display: inline-block" id="createNewEntryButton" style="margin-top: 70px; display: none;" onclick="createRecord()">
                      Create New Entry <i class="fa fa-angle-double-down animated"></i>
                      </a>
                   </div>
@@ -253,7 +277,7 @@
                               <div class="form-group input-group initialLengthOfStayDiv">
                                  <label class="fixingLabelAlignment">Initial Length of Stay : </label>
                                  <div class="fixingInputAlignment">
-                                    <input type="search" name="initialLengthOfStay" id="initialLengthOfStay" class="form-control calendarField" disabled readonly="true"/>
+                                    <input type="search" name="initialLengthOfStay" id="initialLengthOfStay" class="form-control calendarField" disabled/>
                                  </div>
                               </div>
                            </div>
@@ -3479,11 +3503,11 @@
                                              <label class="fixingLabelAlignmentInnerInner">Level above Exchange  :  </label>
                                              <div class="fixingInputAlignmentInnerInner">
                                                 <span class="radioFloatLeftInner">
-                                                <input class="radioType" id="levelAboveExchangeYes" type="radio" name = levelAboveExchange value="1">
+                                                <input class="radioType" id="levelAboveExchangeYes" type="radio" name = "levelAboveExchange" value="1">
                                                 <label class="radioText" for="levelAboveExchangeYes">Yes</label>
                                                 </span>
                                                 <span class="radioFloatLeftInner">
-                                                <input class="radioType" id="levelAboveExchangeNo" type="radio" name = levelAboveExchange value="0">
+                                                <input class="radioType" id="levelAboveExchangeNo" type="radio" name = "levelAboveExchange" value="0">
                                                 <label class="radioText" for="levelAboveExchangeNo">No</label>
                                                 </span>
                                              </div>
@@ -4057,6 +4081,15 @@
                autosave();
                checkForPopulation();
             //}
+            
+            
+            
+            $('a.close, #mask').bind('click', function() { 
+              $('#mask , .login-popup').fadeOut(300 , function() {
+                $('#mask').remove();  
+            }); 
+                return false;
+            });
        });
     </script>
 </body>

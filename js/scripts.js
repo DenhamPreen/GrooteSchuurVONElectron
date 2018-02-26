@@ -107,6 +107,14 @@ $("#mothersLastName").keyup(function() {
     patientsNameInSideBar.value = "Baby "+this.value;
     $('#patientsName').change(); //changing values here don't trigger the onchange in HTML
 });
+
+$("#mothersLastName").change(function() {
+    
+    patientsName.value = "Baby "+this.value;
+    patientsNameInSideBar.value = "Baby "+this.value;
+    $('#patientsName').change(); //changing values here don't trigger the onchange in HTML
+});
+
 var patientMedicalNumber = document.getElementById("patientMedicalRecordNumber");
 var patientMedicalNumberSideBar = document.getElementById("patientInfoPanelPatientMedicalDisplayID");
 $("#patientMedicalRecordNumber").keyup(function() {
